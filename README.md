@@ -1,8 +1,8 @@
+![OneChat Logo](https://github.com/TutorialsAndroid/Chat-App-Flutter-Android/blob/master/icons/app_logo_144px.png?raw=true)
+
 # OneChat - A Flutter Firebase Chat App
 
 OneChat is a real-time chat application built with **Flutter** and **Firebase Realtime Database**. It supports **Google Sign-In authentication** and provides a smooth, modern, and user-friendly chat experience.
-
-![OneChat Banner](https://via.placeholder.com/1200x400)
 
 ## 🚀 Features
 - **Google Sign-In** authentication
