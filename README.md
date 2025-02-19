@@ -4,6 +4,9 @@
 
 OneChat is a real-time chat application built with **Flutter** and **Firebase Realtime Database**. It supports **Google Sign-In authentication** and provides a smooth, modern, and user-friendly chat experience.
 
+## 📥 Download
+[![Download OneChat](https://img.shields.io/badge/Download-OneChat-blue)](https://mega.nz/file/yAh1wJjB#INwq8IZO4oCiHP9AWRIyGmi1OjARU8zVL4CAl_f8rfs)
+
 ## 🚀 Features
 - **Google Sign-In** authentication
 - **Real-time messaging** powered by Firebase
