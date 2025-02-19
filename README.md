@@ -58,5 +58,5 @@ Contributions are welcome! Feel free to fork this project, create a branch, and 
 This project is licensed under the **MIT License**.
 
 ---
-Developed with ❤️ by [Akshay Masram](https://github.com/TutorialsAndroid)
+Developed with ❤️ by [Akshay](https://github.com/TutorialsAndroid)
 
