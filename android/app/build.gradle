@@ -3,7 +3,29 @@ plugins {
     id "kotlin-android"
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
+    id "com.google.gms.google-services"
 }
+
+//Initialize Properties
+def properties = new Properties()
+try {
+    // Load keystore
+    def keystorePropertiesFile = rootProject.file("keystore.properties")
+    properties.load(new FileInputStream(keystorePropertiesFile))
+} catch(IOException e) {
+    // We don't have release keys, ignoring
+    System.out.println( e.printStackTrace() )
+}
+
+//Release key path, password, alias
+final String RELEASE_KEY_STORE_PATH = properties.getProperty('RELEASE_KEY_STORE_PATH')
+final String RELEASE_KEY_STORE_PATH_PASSWORD = properties.getProperty('RELEASE_KEY_STORE_PATH_PASSWORD')
+final String RELEASE_KEY_STORE_PATH_ALIAS = properties.getProperty('RELEASE_KEY_STORE_PATH_ALIAS')
+
+//Debug key path, password, alias
+final String DEBUG_KEY_STORE_PATH = properties.getProperty('DEBUG_KEY_STORE_PATH')
+final String DEBUG_KEY_STORE_PATH_PASSWORD = properties.getProperty('DEBUG_KEY_STORE_PATH_PASSWORD')
+final String DEBUG_KEY_STORE_PATH_ALIAS = properties.getProperty('DEBUG_KEY_STORE_PATH_ALIAS')
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file("local.properties")
@@ -26,7 +48,7 @@ if (flutterVersionName == null) {
 android {
     namespace = "com.app.onechat"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -38,17 +60,50 @@ android {
         applicationId = "com.app.onechat"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdk = flutter.minSdkVersion
+        minSdk = 23
         targetSdk = flutter.targetSdkVersion
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
     }
 
-    buildTypes {
+    signingConfigs {
+
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.debug
+            storeFile file( RELEASE_KEY_STORE_PATH )
+            storePassword RELEASE_KEY_STORE_PATH_PASSWORD
+            keyAlias RELEASE_KEY_STORE_PATH_ALIAS
+            keyPassword RELEASE_KEY_STORE_PATH_PASSWORD
+        }
+
+        debug {
+            storeFile file( DEBUG_KEY_STORE_PATH )
+            storePassword DEBUG_KEY_STORE_PATH_PASSWORD
+            keyAlias DEBUG_KEY_STORE_PATH_ALIAS
+            keyPassword DEBUG_KEY_STORE_PATH_PASSWORD
+        }
+
+    }
+
+    buildTypes {
+
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            signingConfig signingConfigs.debug
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+    }
+
+    configurations.all {
+        resolutionStrategy {
+            force 'org.jetbrains.kotlin:kotlin-stdlib:1.8.22'
+            force 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22'
         }
     }
 }
